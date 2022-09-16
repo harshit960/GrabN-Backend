@@ -28,7 +28,7 @@ def scrape(url):
     # Download the page using requests
     print("Downloading %s"%url)
     r = requests.get(url, headers=header)
-    
+    print(r.text)
     return e.extract(r.text)
 
 
