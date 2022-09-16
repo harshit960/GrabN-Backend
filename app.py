@@ -1,3 +1,4 @@
+from ast import While
 from itertools import product
 from flask import Flask,jsonify
 from searchresults import getSearchdata
@@ -10,7 +11,11 @@ def hello_world():
 
 @app.route("/search/<string:key>")
 def search(key):
-    data=getSearchdata(key)
+    while(True):
+        if getSearchdata(key) != None:
+            data=getSearchdata(key)
+            break
+
     products=data["products"]
     return jsonify(products)
 
