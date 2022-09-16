@@ -20,7 +20,7 @@ e = Extractor.from_yaml_file('search_results.yml')
 def scrape(url):  
     headers = fakehead(
         # generate any browser & os headeers
-        headers=False  # don`t generate misc headers
+        headers=True  # don`t generate misc headers
     )
 
     header=headers.generate()
@@ -28,12 +28,13 @@ def scrape(url):
     # Download the page using requests
     print("Downloading %s"%url)
     r = requests.get(url, headers=header)
+    
     return e.extract(r.text)
 
 
 def getSearchdata(keyword):
     slug=slugify(keyword)
-    link = 'https://www.amazon.in/s?k='+slug
+    link = 'https://www.flipkart.com/search?q='+slug
     print(link)
     data = scrape(link)
     return data
