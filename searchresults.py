@@ -1,3 +1,4 @@
+from email import header
 from selectorlib import Extractor
 import requests 
 import re
@@ -22,10 +23,11 @@ def scrape(url):
         headers=False  # don`t generate misc headers
     )
 
-
+    header=headers.generate()
+    print(header)
     # Download the page using requests
     print("Downloading %s"%url)
-    r = requests.get(url, headers=headers.generate())
+    r = requests.get(url, headers=header)
     # Simple check to check if page was blocked (Usually 503)
     if r.status_code > 500:
         if "To discuss automated access to Amazon data please contact" in r.text:
