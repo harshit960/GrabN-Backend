@@ -1,42 +1,17 @@
-from email import header
-from selectorlib import Extractor
-import requests 
-import re
-from fake_headers import Headers as fakehead
+import requests
 
 
+def getflipkartdata(keyword):
+  url = 'https://affiliate-api.flipkart.net/affiliate/1.0/search.json?query='+ keyword
 
-
-def slugify(s):
-  s = s.lower().strip()
-  s = re.sub(r'[^\w\s-]', '', s)
-  s = re.sub(r'[\s_-]+', '-', s)
-  s = re.sub(r'^-+|-+$', '', s)
-  return s
-
-# Create an Extractor by reading from the YAML file
-e = Extractor.from_yaml_file('search_results.yml')
-
-def scrape(url):  
-    headers = fakehead(
-        # generate any browser & os headeers
-        headers=True  # don`t generate misc headers
-    )
-
-    header=headers.generate()
-    print(header)
-    # Download the page using requests
-    print("Downloading %s"%url)
-    r = requests.get(url, headers=header)
-    
-    return e.extract(r.text)
-
-
-def getSearchdata(keyword):
-    slug=slugify(keyword)
-    link = 'https://www.flipkart.com/search?q='+slug
-    print(link)
-    data = scrape(link)
-    return data
-
-
+  payload={}
+  headers = {
+    'Fk-Affiliate-Id': 'harshit960',
+    'Fk-Affiliate-Token': '403145a980b743eba1582a1626407ba4'
+  }
+  response = requests.request("GET", url, headers=headers, data=payload)
+  data=response.json()
+  return data
+ 
+ 
+ #print(getflipkartdata(keyword))

@@ -1,7 +1,6 @@
-from ast import While
-from itertools import product
+import json
 from flask import Flask,jsonify
-from searchresults import getSearchdata
+from flipkart import getflipkartdata
 app = Flask(__name__)
 
 @app.route("/")
@@ -11,13 +10,10 @@ def hello_world():
 
 @app.route("/search/<string:key>")
 def search(key):
-    while(True):
-        if getSearchdata(key) != None:
-            data=getSearchdata(key)
-            break
-
-    products=data["products"]
-    return jsonify(products)
+    data = getflipkartdata(key)
+    
+    print(type(data))
+    return (data)
 
 if __name__=="__main__":
-    app.run(debug=False)
+    app.run(debug=True)
