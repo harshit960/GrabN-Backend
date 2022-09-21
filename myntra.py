@@ -17,7 +17,6 @@ def getajio(keyword):
     
     items =driver.find_elements(By.CLASS_NAME,"rilrtl-products-list__item")
     for item in items:
-        
         imageraw=item.find_elements(By.CLASS_NAME, "rilrtl-lazy-img-loaded")
         if len(imageraw) == 0:
             break

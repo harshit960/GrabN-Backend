@@ -2,7 +2,7 @@ import requests
 
 
 def getflipkartdata(keyword):
-  url = 'https://affiliate-api.flipkart.net/affiliate/1.0/search.json?query='+ keyword
+  url = 'https://affiliate-api.flipkart.net/affiliate/1.0/search.json?query='+ keyword +'&resultCount=10'
 
   payload={}
   headers = {
