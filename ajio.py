@@ -1,43 +1,37 @@
 
-from requests_html import AsyncHTMLSession
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 import json
-import asyncio
-from concurrent.futures import ThreadPoolExecutor
 
-
-
-async def getAjio(keyword):
-    asession = AsyncHTMLSession()
+def getajio(keyword):
     products=[]
     jsonoutput={}
-    url = 'https://www.ajio.com/search/?query=%3Arelevance&text='+keyword+'&classifier=intent&customerType=New&gridColumns=5'
-    r = await asession.get(url)
-    await r.html.arender(sleep=0, keep_page=True, scrolldown=10, timeout=20)
-    item =await  r.html.find('.rilrtl-products-list__item')
-    for x in item:
-        thumbnail = x.find('.rilrtl-lazy-img-loaded')
-        if len(thumbnail)==0:
+    option = webdriver.ChromeOptions()
+    option.add_argument('--headless')
+    option.add_argument("--ignore-certificate-error")
+    option.add_argument("--ignore-ssl-errors")
+    PATH ="C:\Program Files (x86)\chromedriver.exe"
+    driver = webdriver.Chrome(PATH,options=option)
+    driver.get("https://www.ajio.com/search/?query=%3Arelevance&text="+ keyword +"&classifier=intent&customerType=New&gridColumns=5")
+    
+    items =driver.find_elements(By.CLASS_NAME,"rilrtl-products-list__item")
+    for item in items:
+        
+        imageraw=item.find_elements(By.CLASS_NAME, "rilrtl-lazy-img-loaded")
+        if len(imageraw) == 0:
             break
         else:
-            img = thumbnail[0].xpath('//img')[0]
-            
-
-            brand = x.find('.brand')[0]
-            
-            product = x.find('.nameCls')[0]
-            
-            sp = x.find('.price')[0]
-            
-            originalp = x.find('.orginal-price')[0]
-            
+            image=imageraw[0].get_attribute('src')
+        brand=item.find_element(By.CLASS_NAME, "brand").text
+        product=item.find_element(By.CLASS_NAME, "nameCls").text
+        sp=item.find_element(By.CLASS_NAME, "price").text
+        originalp=item.find_element(By.CLASS_NAME, "orginal-price").text
         
-            link = x.find('.rilrtl-products-list__link')[0]
-            
-            prodata=json.dumps({'brand':brand.text,'name':product.text,'sp':sp.text, 'photo':img.attrs['src'],'link':list(link.absolute_links)})
-            products.append(json.loads(prodata))
-    
+        link=item.find_element(By.CLASS_NAME, "rilrtl-products-list__link").get_attribute("href")
+        prodata=json.dumps({'brand':brand,'name':product,'sp':sp, 'photo':image,'link':link})
+        products.append(json.loads(prodata))
+    driver.close()
     jsonoutput=json.dumps({'products':products})
-    await asession.close()
     return json.loads(jsonoutput)
-
-            
+    
