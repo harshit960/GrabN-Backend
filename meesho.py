@@ -13,10 +13,11 @@ def getMeesho(keyword):
     option.add_argument("--headless")
     option.add_argument("--disable-dev-shm-usage")
     option.add_argument("--no-sandbox")
+    option.add_argument(f'user-agent={user_agent}')
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=option)
     option.headless=True
     #option.add_argument('--headless')
-    #option.add_argument(f'user-agent={user_agent}')
+    
     #option.add_argument("--ignore-certificate-error")
     #option.add_argument("--ignore-ssl-errors")
     #PATH ="C:\Program Files (x86)\chromedriver.exe"

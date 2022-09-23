@@ -14,14 +14,14 @@ def final_data(keyword):
     flipkart=getFlipkart(keyword)
     meesho=getMeesho(keyword)
     myntra= getMynta(keyword)
-    #snapdael=getSnapdeal(keyword)
+    snapdael=getSnapdeal(keyword)
     amazon=getAmazon(keyword)
     total =[]
     total.append(json.loads(json.dumps(ajio)))
     total.append(json.loads(json.dumps(flipkart)))
     total.append(json.loads(json.dumps(meesho)))
     total.append(json.loads(json.dumps(myntra)))
-    #total.append(json.loads(json.dumps(snapdael)))
+    total.append(json.loads(json.dumps(snapdael)))
     total.append(json.loads(json.dumps(amazon)))
     products=[]
     for i in total:
