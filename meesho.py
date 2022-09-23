@@ -1,11 +1,10 @@
-
+import os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import json
-import os
 
-def getAjio(keyword):
+def getMeesho(keyword):
     products=[]
     jsonoutput={}
     user_agent ="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246"
@@ -22,24 +21,22 @@ def getAjio(keyword):
     #option.add_argument("--ignore-ssl-errors")
     #PATH ="C:\Program Files (x86)\chromedriver.exe"
     #driver = webdriver.Chrome(PATH,options=option)
-    driver.get("https://www.ajio.com/search/?query=%3Arelevance&text="+ keyword +"&classifier=intent&customerType=New&gridColumns=5")
+    driver.get("https://www.meesho.com/search?q="+keyword+"&searchType=autosuggest&searchIdentifier=text_search")
     
-    items =driver.find_elements(By.CLASS_NAME,"rilrtl-products-list__item")
+    items =driver.find_elements(By.CLASS_NAME,"ProductList__GridCol-sc-8lnc8o-0")
     for item in items:
-        
-        imageraw=item.find_elements(By.CLASS_NAME, "rilrtl-lazy-img-loaded")
+        imageraw=item.find_elements(By.CSS_SELECTOR, "a > div > div.NewProductCardstyled__ProductImage-sc-6y2tys-18.kiiIIO > picture > img")
         if len(imageraw) == 0:
             break
         else:
             image=imageraw[0].get_attribute('src')
-        brand=item.find_element(By.CLASS_NAME, "brand").text
-        product=item.find_element(By.CLASS_NAME, "nameCls").text
-        sp=item.find_element(By.CLASS_NAME, "price").text
-        originalp=item.find_element(By.CLASS_NAME, "orginal-price").text
+        brand=item.find_element(By.CLASS_NAME, "NewProductCardstyled__StyledDesktopProductTitle-sc-6y2tys-5").text
+        product=item.find_element(By.CLASS_NAME, "NewProductCardstyled__StyledDesktopProductTitle-sc-6y2tys-5").text
+        sp=item.find_element(By.CLASS_NAME, "BBZyK").text
+        #originalp=item.find_element(By.CLASS_NAME, "gKNxow").text
         
-        link=item.find_element(By.CLASS_NAME, "rilrtl-products-list__link").get_attribute("href")
-        #prodata=json.dumps({'productBrand':brand,'title':product,'sp':sp, 'photo':image,'link':link})
-        prodata=json.dumps({'productBrand':brand,'title':product,'flipkartSpecialPrice':sp,'flipkartSellingPrice':originalp, 'imageUrls':image,'productUrl':link,'store':'Ajio'})
+        link=item.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
+        prodata=json.dumps({'productBrand':brand,'title':product,'flipkartSpecialPrice':sp, 'imageUrls':image,'productUrl':link,'store':'meesho'})
         products.append(json.loads(prodata))
     driver.close()
     jsonoutput=json.dumps({'products':products})

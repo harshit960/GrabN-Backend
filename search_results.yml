@@ -8,7 +8,11 @@ products:
             css: 'h2 a.a-link-normal.a-text-normal'
             xpath: null
             type: Text
-        url:
+        productBrand:
+            css: 'h5 span.a-size-base-plus.a-color-base'
+            xpath: null
+            type: Text
+        productUrl:
             css: 'h2 a.a-link-normal.a-text-normal'
             xpath: null
             type: Link
@@ -22,16 +26,16 @@ products:
             xpath: null
             type: Attribute
             attribute: aria-label
-        price:
+        flipkartSpecialPrice:
             css: 'span.a-price:nth-of-type(1) span.a-offscreen'
             xpath: null
             type: Text
-        oprice:
+        flipkartSellingPrice:
             css: 'span.a-price.a-text-price:nth-of-type(2) span.a-offscreen'
             xpath: null
             type: Text
 
-        thumbimages:
+        imageUrls:
             css: '.a-section img'
             type: Attribute
             attribute: src

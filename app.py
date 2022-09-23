@@ -1,9 +1,8 @@
-import json
+
+
 import re
 from flask import Flask,jsonify
-from flipkart import getflipkartdata
-from sd import ReadAsin
-from ajio import getajio
+from getdata import final_data
 app = Flask(__name__)
 
 @app.route("/")
@@ -22,9 +21,7 @@ def slugify(s):
 @app.route("/search/<string:key>")
 def search(key):
     key=slugify(key)
-    data = getflipkartdata(key)
-    #data2 = ReadAsin()
-    #data3 = getajio(key)
+    data =final_data(key)
     return (data)
 
 if __name__=="__main__":
