@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import json
 import os
-
+import time
 def getAjio(keyword):
     products=[]
     jsonoutput={}
@@ -15,21 +15,24 @@ def getAjio(keyword):
     option.add_argument("--disable-dev-shm-usage")
     option.add_argument("--no-sandbox")
     option.add_argument(f'user-agent={user_agent}')
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=option)
-    option.headless=True
+    #driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=option)
+    #option.headless=True
     #option.add_argument('--headless')
     #option.add_argument(f'user-agent={user_agent}')
     #option.add_argument("--ignore-certificate-error")
-    #option.add_argument("--ignore-ssl-errors")
-    #PATH ="C:\Program Files (x86)\chromedriver.exe"
-    #driver = webdriver.Chrome(PATH,options=option)
+    #option.add_argument("--ignore-ssl-errors"
+    option.add_argument("window-size=1920,1080")
+    PATH ="C:\Program Files (x86)\chromedriver.exe"
+    driver = webdriver.Chrome(PATH,options=option)
     driver.get("https://www.ajio.com/search/?query=%3Arelevance&text="+ keyword +"&classifier=intent&customerType=New&gridColumns=5")
     
+    #time.sleep(3)
+    driver.execute_script("window.scrollBy(0,1200)","")
+    #time.sleep(3)
     items =driver.find_elements(By.CLASS_NAME,"rilrtl-products-list__item")
     for item in items:
-        
-        imageraw=item.find_elements(By.CLASS_NAME, "rilrtl-lazy-img-loaded")
-        if len(imageraw) == 0:
+        imageraw=item.find_elements(By.CLASS_NAME, "rilrtl-lazy-img")
+        if imageraw[0].get_attribute('src') == None:
             break
         else:
             image=imageraw[0].get_attribute('src')
@@ -43,6 +46,6 @@ def getAjio(keyword):
         prodata=json.dumps({'productBrand':brand,'title':product,'flipkartSpecialPrice':sp,'flipkartSellingPrice':originalp, 'imageUrls':image,'productUrl':link,'store':'Ajio'})
         products.append(json.loads(prodata))
     driver.close()
-    jsonoutput=json.dumps({'products':products})
+    jsonoutput=json.dumps({'products':len(products)})
     return json.loads(jsonoutput)
     
