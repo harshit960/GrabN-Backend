@@ -13,8 +13,8 @@ def final_data(keyword):
     total =[]
 
 
-    amazon=getAmazon(keyword)
-    total.append(json.loads(json.dumps(amazon)))
+    #amazon=getAmazon(keyword)
+    #total.append(json.loads(json.dumps(amazon)))
 
     
     flipkart=getFlipkart(keyword)
