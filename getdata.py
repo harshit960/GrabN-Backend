@@ -10,19 +10,36 @@ from amazon import getAmazon
 import json
 
 def final_data(keyword):
-    #ajio = getAjio(keyword)
-    flipkart=getFlipkart(keyword)
-    #meesho=getMeesho(keyword)
-    #myntra= getMynta(keyword)
-    #snapdael=getSnapdeal(keyword)
-    #amazon=getAmazon(keyword)
     total =[]
-    #total.append(json.loads(json.dumps(ajio)))
-    total.append(json.loads(json.dumps(flipkart)))
+
+    try:
+        amazon=getAmazon(keyword)
+        total.append(json.loads(json.dumps(amazon)))
+    except:
+        print('amazon 503')
+    try:
+        flipkart=getFlipkart(keyword)
+        total.append(json.loads(json.dumps(flipkart)))
+    except:
+        print('flipkart 503')
+    #meesho=getMeesho(keyword)
+    try:
+        myntra= getMynta(keyword,1)
+        total.append(json.loads(json.dumps(myntra)))
+    except:
+        print('myntra 503')
+
+
+    #snapdael=getSnapdeal(keyword)
+    try:
+        ajio = getAjio(keyword)
+        total.append(json.loads(json.dumps(ajio)))
+    except:
+        print('ajio 503')
     #total.append(json.loads(json.dumps(meesho)))
-    #total.append(json.loads(json.dumps(myntra)))
+    
     #total.append(json.loads(json.dumps(snapdael)))
-    #total.append(json.loads(json.dumps(amazon)))
+    
     products=[]
     for i in total:
         for x in i['products']:

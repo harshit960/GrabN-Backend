@@ -15,20 +15,23 @@ def getAjio(keyword):
     option.add_argument("--disable-dev-shm-usage")
     option.add_argument("--no-sandbox")
     option.add_argument(f'user-agent={user_agent}')
-    #driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=option)
+    option.add_argument("window-size=1920,1080")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=option)
     #option.headless=True
     #option.add_argument('--headless')
     #option.add_argument(f'user-agent={user_agent}')
     #option.add_argument("--ignore-certificate-error")
     #option.add_argument("--ignore-ssl-errors"
-    option.add_argument("window-size=1920,1080")
-    PATH ="C:\Program Files (x86)\chromedriver.exe"
-    driver = webdriver.Chrome(PATH,options=option)
+    
+    #PATH ="C:\Program Files (x86)\chromedriver.exe"
+    #driver = webdriver.Chrome(PATH,options=option)
     driver.get("https://www.ajio.com/search/?query=%3Arelevance&text="+ keyword +"&classifier=intent&customerType=New&gridColumns=5")
     
-    #time.sleep(3)
-    driver.execute_script("window.scrollBy(0,1200)","")
-    #time.sleep(3)
+    for i in range(40):
+        driver.execute_script("window.scrollBy(0,400)","")
+        time.sleep(0.01)
+    
+    
     items =driver.find_elements(By.CLASS_NAME,"rilrtl-products-list__item")
     for item in items:
         imageraw=item.find_elements(By.CLASS_NAME, "rilrtl-lazy-img")
@@ -39,8 +42,10 @@ def getAjio(keyword):
         brand=item.find_element(By.CLASS_NAME, "brand").text
         product=item.find_element(By.CLASS_NAME, "nameCls").text
         sp=item.find_element(By.CLASS_NAME, "price").text
-        originalp=item.find_element(By.CLASS_NAME, "orginal-price").text
-        
+        try:
+            originalp=item.find_element(By.CSS_SELECTOR, "div > span.orginal-price").text
+        except:
+            pass
         link=item.find_element(By.CLASS_NAME, "rilrtl-products-list__link").get_attribute("href")
         #prodata=json.dumps({'productBrand':brand,'title':product,'sp':sp, 'photo':image,'link':link})
         prodata=json.dumps({'productBrand':brand,'title':product,'flipkartSpecialPrice':sp,'flipkartSellingPrice':originalp, 'imageUrls':image,'productUrl':link,'store':'Ajio'})
@@ -48,4 +53,4 @@ def getAjio(keyword):
     driver.close()
     jsonoutput=json.dumps({'products':len(products)})
     return json.loads(jsonoutput)
-    
+

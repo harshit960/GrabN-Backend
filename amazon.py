@@ -20,7 +20,7 @@ e = Extractor.from_yaml_file('search_results.yml')
 def scrape(url):  
     headers = fakehead(
         # generate any browser & os headeers
-        headers=True  # don`t generate misc headers
+        headers=False  # don`t generate misc headers
     )
 
     header=headers.generate()
@@ -34,6 +34,7 @@ def scrape(url):
 def getAmazon(keyword):
     slug=slugify(keyword)
     link = 'https://www.amazon.in/s?k='+slug
+    print(link)
     data = scrape(link)
     return data
 
