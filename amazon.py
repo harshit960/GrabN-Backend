@@ -20,7 +20,7 @@ e = Extractor.from_yaml_file('search_results.yml')
 def scrape(url):  
     headers = fakehead(
         # generate any browser & os headeers
-        headers=False  # don`t generate misc headers
+        headers=True  # don`t generate misc headers
     )
 
     header=headers.generate()

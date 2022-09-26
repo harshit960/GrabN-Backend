@@ -12,30 +12,21 @@ import json
 def final_data(keyword):
     total =[]
 
-    try:
-        amazon=getAmazon(keyword)
-        total.append(json.loads(json.dumps(amazon)))
-    except:
-        print('amazon 503')
-    try:
-        flipkart=getFlipkart(keyword)
-        total.append(json.loads(json.dumps(flipkart)))
-    except:
-        print('flipkart 503')
+
+    amazon=getAmazon(keyword)
+    total.append(json.loads(json.dumps(amazon)))
+
+    
+    flipkart=getFlipkart(keyword)
+    total.append(json.loads(json.dumps(flipkart)))
+    
     #meesho=getMeesho(keyword)
-    try:
-        myntra= getMynta(keyword,1)
-        total.append(json.loads(json.dumps(myntra)))
-    except:
-        print('myntra 503')
-
-
+    myntra= getMynta(keyword,1)
+    total.append(json.loads(json.dumps(myntra)))
     #snapdael=getSnapdeal(keyword)
-    try:
-        ajio = getAjio(keyword)
-        total.append(json.loads(json.dumps(ajio)))
-    except:
-        print('ajio 503')
+    ajio = getAjio(keyword)
+    total.append(json.loads(json.dumps(ajio)))
+    
     #total.append(json.loads(json.dumps(meesho)))
     
     #total.append(json.loads(json.dumps(snapdael)))
