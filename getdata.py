@@ -21,7 +21,7 @@ def final_data(keyword):
     total.append(json.loads(json.dumps(flipkart)))
     
     #meesho=getMeesho(keyword)
-    myntra= getMynta(keyword,1)
+    myntra= getMynta(keyword,'a')
     total.append(json.loads(json.dumps(myntra)))
     #snapdael=getSnapdeal(keyword)
     ajio = getAjio(keyword)
