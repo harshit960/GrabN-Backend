@@ -6,12 +6,12 @@ import os
 import time
 
 
-def getMynta(keyword,p):
+def getMynta(keyword,page):
     products=[]
     jsonoutput={}
     user_agent ="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246"
     option = webdriver.ChromeOptions()
-    option.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    #option.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     option.add_argument("--headless")
     option.add_argument("--disable-dev-shm-usage")
     option.add_argument("--no-sandbox")
@@ -24,7 +24,7 @@ def getMynta(keyword,p):
     #option.add_argument("--ignore-ssl-errors")
     #PATH ="C:\Program Files (x86)\chromedriver.exe"
     #driver = webdriver.Chrome(PATH,options=option)
-    driver.get("https://www.myntra.com/"+keyword+"?p=1")
+    driver.get("https://www.myntra.com/"+keyword+"?p="+str(page))
     for i in range(23):
         driver.execute_script("window.scrollBy(0,400)","")
         time.sleep(0.01)
@@ -42,12 +42,13 @@ def getMynta(keyword,p):
         product=item.find_element(By.CLASS_NAME, "product-product").text
         sp=item.find_element(By.XPATH, "//*[@id='desktopSearchResults']/div[2]/section/ul/li[7]/a/div[2]/div/span[1]/span[1]").text
         originalp=item.find_element(By.XPATH, "//*[@id='desktopSearchResults']/div[2]/section/ul/li[7]/a/div[2]/div/span[1]/span[2]").text
-        rating=item.find_element(By.XPATH,"//*[@id='desktopSearchResults']/div[2]/section/ul/li[4]/div[2]/span[1]").text
-        rated_by=item.find_element(By.XPATH,"//*[@id='desktopSearchResults']/div[2]/section/ul/li[4]/div[2]/div").text
+        #rating=item.find_element(By.XPATH,"//*[@id='desktopSearchResults']/div[2]/section/ul/li[4]/div[2]/span[1]").text
+        #rated_by=item.find_element(By.XPATH,"//*[@id='desktopSearchResults']/div[2]/section/ul/li[4]/div[2]/div").text
         link=item.find_element(By.XPATH, "//*[@id='desktopSearchResults']/div[2]/section/ul/li[1]/a").get_attribute("href")
-        prodata=json.dumps({'productBrand':brand,'title':product,'flipkartSpecialPrice':sp,'flipkartSellingPrice':originalp, 'imageUrls':image,'productUrl':link,'Rating':rating,'Rated_by':rated_by,'store':'Myntra'})
+        prodata=json.dumps({'productBrand':brand,'title':product,'flipkartSpecialPrice':sp,'flipkartSellingPrice':originalp, 'imageUrls':image,'productUrl':link,'store':'Myntra'})
         products.append(json.loads(prodata))
     driver.close()
     jsonoutput=json.dumps({'products':products})
     return json.loads(jsonoutput)
+
 

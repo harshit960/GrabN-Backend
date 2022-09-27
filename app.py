@@ -3,7 +3,9 @@
 import re
 from flask import Flask,jsonify
 from getdata import final_data
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def hello_world():
@@ -18,10 +20,10 @@ def slugify(s):
 
 
 
-@app.route("/search/<string:key>")
-def search(key):
+@app.route("/search/<string:key>/<int:page>")
+def search(key,page):
     key=slugify(key)
-    data =final_data(key)
+    data =final_data(key,page)
     return (data)
 
 if __name__=="__main__":

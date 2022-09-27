@@ -10,7 +10,7 @@ def getAjio(keyword):
     jsonoutput={}
     user_agent ="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246"
     option = webdriver.ChromeOptions()
-    option.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    #option.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     option.add_argument("--headless")
     option.add_argument("--disable-dev-shm-usage")
     option.add_argument("--no-sandbox")
@@ -51,6 +51,6 @@ def getAjio(keyword):
         prodata=json.dumps({'productBrand':brand,'title':product,'flipkartSpecialPrice':sp,'flipkartSellingPrice':originalp, 'imageUrls':image,'productUrl':link,'store':'Ajio'})
         products.append(json.loads(prodata))
     driver.close()
-    jsonoutput=json.dumps({'products':len(products)})
+    jsonoutput=json.dumps({'products':products})
     return json.loads(jsonoutput)
 

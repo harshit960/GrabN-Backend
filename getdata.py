@@ -9,22 +9,26 @@ from snapdeal import getSnapdeal
 from amazon import getAmazon
 import json
 
-def final_data(keyword):
+def final_data(keyword,page):
     total =[]
 
 
-    #amazon=getAmazon(keyword)
-    #total.append(json.loads(json.dumps(amazon)))
+    amazon=getAmazon(keyword)
+    total.append(json.loads(json.dumps(amazon)))
 
     
     flipkart=getFlipkart(keyword)
+    myntra= getMynta(keyword,page)
+    ajio = getAjio(keyword)
+
+    
     total.append(json.loads(json.dumps(flipkart)))
     
     #meesho=getMeesho(keyword)
-    myntra= getMynta(keyword,'a')
+   
     total.append(json.loads(json.dumps(myntra)))
     #snapdael=getSnapdeal(keyword)
-    ajio = getAjio(keyword)
+    
     total.append(json.loads(json.dumps(ajio)))
     
     #total.append(json.loads(json.dumps(meesho)))
