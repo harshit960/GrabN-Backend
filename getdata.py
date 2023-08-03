@@ -13,23 +13,23 @@ def final_data(keyword,page):
     total =[]
 
 
-    #amazon=getAmazon(keyword)
-    #total.append(json.loads(json.dumps(amazon)))
+    amazon=getAmazon(keyword)
+    total.append(json.loads(json.dumps(amazon)))
 
     
     flipkart=getFlipkart(keyword)
-    myntra= getMynta(keyword,page)
-    ajio = getAjio(keyword)
+    #myntra= getMynta(keyword,page)
+    #ajio = getAjio(keyword)
 
     
     total.append(json.loads(json.dumps(flipkart)))
     
     #meesho=getMeesho(keyword)
    
-    total.append(json.loads(json.dumps(myntra)))
+    #total.append(json.loads(json.dumps(myntra)))
     #snapdael=getSnapdeal(keyword)
     
-    total.append(json.loads(json.dumps(ajio)))
+    #total.append(json.loads(json.dumps(ajio)))
     
     #total.append(json.loads(json.dumps(meesho)))
     
